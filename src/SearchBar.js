@@ -5,31 +5,34 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state = { term:"",
-        state: "Regular",
+        state: "searching",
         gifs: this.props.gifs,
         order: "default"
         }
     }
 
-    onInputChange(term) {
+    handleChange(term) {
         this.setState({term});
         this.props.onSearchChange(term);
+        console.log(this.state.term)
+        this.componentDidMount(term);
     }
     
-    componentDidMount(){
+    componentDidMount(term){
         axios.get.apply('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then((response) => {
             this.setState( {gifs: response.data ["data"], state: "searching"});
             this.state.gids.forEach((element) => {console.log(element.ratings)})
         })
+        .catch((error => console.log(error)));
     }
     
-    search = (result) => {
+    search(result) {
         this.props.onSearch(this.state.term); {
             axios.get.apply('http://api.giphy.com/v1/gifs/random?api_key=0aIzVnzB2PPXO4Mtz0ZQNPALfV7CxgIT').then((response) => {
                 this.setState({gifs: response.data ["data"], state: "searching"})
             });
         }             
-        console.log('results: ')
+        console.log('Result: ')
         }
 
     pressEnter = (event) => {
@@ -42,7 +45,7 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="search" type="submit">
-                <input onTermChange={event => this.onInputChange(event.target.value)} onKeyPress={this.pressEnter} />
+                <input onTermChange={event => this.handleChange(event.target.value)} onKeyPress={this.pressEnter} />
                 <a onClick={this.search}>Giph Me</a>              
             </div>          
         );

@@ -10,7 +10,7 @@ class App extends Component  {
 
   render(){
     return(
-      <div>
+      <div className="App">
       <hi>Search for Giphy:</hi>
       <SearchBar onTermChange={this.handleTermChange}/> 
       </div>
