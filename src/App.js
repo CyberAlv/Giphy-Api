@@ -12,11 +12,15 @@ class App extends Component  {
     }
   }
 
+
   componentDidMount(){
     const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
-    const trendingURL = 'http://api.giphy.com/v1/gifs/trending?api_key=Yyaf7C3GPzJVUMpFfkaHcqZO9twwUgus';
+   //const trendingURL = `http://api.giphy.com/v1/gifs/trending?api_key=${apiKey}`;
+   const trendingURL = "http://api.giphy.com/v1/gifs/trending?api_key=" + apiKey;
+    //const trendingURL = 'http://api.giphy.com/v1/gifs/trending?api_key=Yyaf7C3GPzJVUMpFfkaHcqZO9twwUgus';
     axios.get(trendingURL).then((response) => {
-      const data = response.data;
+      const data = response.data.data;
+      
       console.log(data);
 
       this.setState({giphyArray: data});
@@ -29,21 +33,31 @@ class App extends Component  {
   render(){
     let displayTrendingArray;
 
+    if(this.state.giphyArray[0]){
+    
     displayTrendingArray = (
       <ul>
-        {this.state.giphyArray.map((def) => {
-          return <li>{def}</li>
+        {this.state.giphyArray.map((gif , idx) => {
+          if(idx < 5)
+            return <li key={gif.id}><img src={gif.images.downsized_large.url} alt="gif" /></li>
+          
+            else  
+              return null
        })}
       </ul>
     )
+    }
+      else  
+        displayTrendingArray = ""
 
     return(
       <div className="App">
       <h1>Search for Giphy:</h1>
 
-      {displayTrendingArray};
+   <div>
+      {displayTrendingArray}
+      </div>
       
-    {/*<SearchBar />*/} 
     
       </div>
     )
