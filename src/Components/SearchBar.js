@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Search from './search'
 import axios from 'axios';
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = { term:"",
-        state: "searching",
+        this.state = { term: null,
+        searchInput: "",
         gifs: this.props.gifs,
         order: "default"
         }
@@ -17,6 +18,25 @@ class SearchBar extends Component {
         console.log(this.state.term)
         this.componentDidMount(term);
     }
+
+    handleInput = (event) => {
+        this.setState({ searchInput: event.target.value});
+        
+    }
+
+    handleSearch = () => {
+        axios
+        .get("http://api.giphy.com/v1/gifs/search?q=%27" + this.state.searchInput)
+        .then(res) => {
+            const data = res.data;
+
+            const newGiphyObj = {
+                name: data.name,
+                imageUrl: data.sprites.front_default,
+            }
+            this.setState({ term: newGiphyObj})
+        };
+    }
     
     componentDidMount(term){
         axios.get('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then(res => {
@@ -24,29 +44,17 @@ class SearchBar extends Component {
             this.setState({ term: res.data})
         })
     } 
-           
-        
-    search(result) {
-        this.props.onSearch(this.state.term); {
-            axios.get('http://api.giphy.com/v1/gifs/random?api_key=0aIzVnzB2PPXO4Mtz0ZQNPALfV7CxgIT').then((response) => {
-                this.setState({gifs: response.data ["data"], state: "searching"})
-            });
-        }             
-        console.log('Result: ')
-        }
-
-    pressEnter = (event) => {
-        if(event.key === 'Enter'){
-            this.search();
-        }
-    }
-
-    
+              
     render() {
         return (
             <div className="search" type="submit">
                 <input onTermChange={event => this.handleChange(event.target.value)} onKeyPress={this.pressEnter} />
-                <button onClick={this.search}>Giph Me</button>              
+                <Search 
+                value={this.state.searchInput}
+                onChange={this.handleInput}
+                onSearch={this.handleSearch}  
+                onClick={this.search}>Giph Me
+                /</Search>>         
             </div>          
         );
     }
