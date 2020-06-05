@@ -19,16 +19,16 @@ class SearchBar extends Component {
     }
     
     componentDidMount(term){
-        axios.get.apply('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then((response) => {
-            this.setState( {gifs: response.data ["data"], state: "searching"});
-            this.state.gids.forEach((element) => {console.log(element.ratings)})
+        axios.get('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then(res => {
+            console.log(res);
+            this.setState({ term: res.data})
         })
-        .catch((error => console.log(error)));
-    }
-    
+    } 
+           
+        
     search(result) {
         this.props.onSearch(this.state.term); {
-            axios.get.apply('http://api.giphy.com/v1/gifs/random?api_key=0aIzVnzB2PPXO4Mtz0ZQNPALfV7CxgIT').then((response) => {
+            axios.get('http://api.giphy.com/v1/gifs/random?api_key=0aIzVnzB2PPXO4Mtz0ZQNPALfV7CxgIT').then((response) => {
                 this.setState({gifs: response.data ["data"], state: "searching"})
             });
         }             
@@ -46,7 +46,7 @@ class SearchBar extends Component {
         return (
             <div className="search" type="submit">
                 <input onTermChange={event => this.handleChange(event.target.value)} onKeyPress={this.pressEnter} />
-                <a onClick={this.search}>Giph Me</a>              
+                <button onClick={this.search}>Giph Me</button>              
             </div>          
         );
     }
