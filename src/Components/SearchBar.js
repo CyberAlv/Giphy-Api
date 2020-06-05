@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Search from './search'
+import Search from './Search'
 import axios from 'axios';
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = { term: null,
+        this.state = { term: "",
         searchInput: "",
         gifs: this.props.gifs,
         order: "default"
@@ -39,7 +39,8 @@ class SearchBar extends Component {
     }
     
     componentDidMount(term){
-        axios.get('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then(res => {
+        axios
+        .get('http://api.giphy.com/v1/gifs/search?q=%27' + this.state.term).then(res => {
             console.log(res);
             this.setState({ term: res.data})
         })
