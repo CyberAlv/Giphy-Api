@@ -27,7 +27,7 @@ class SearchBar extends Component {
     handleSearch = () => {
         axios
         .get("http://api.giphy.com/v1/gifs/search?q=%27" + this.state.searchInput)
-        .then(res) => {
+        .then((res) => {
             const data = res.data;
 
             const newGiphyObj = {
@@ -35,7 +35,7 @@ class SearchBar extends Component {
                 imageUrl: data.sprites.front_default,
             }
             this.setState({ term: newGiphyObj})
-        };
+        });
     }
     
     componentDidMount(term){
