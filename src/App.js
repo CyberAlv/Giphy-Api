@@ -6,7 +6,7 @@ class App extends Component  {
   render(){
     return(
       <div className="App">
-      <hi>Search for Giphy:</hi>
+      <h1>Search for Giphy:</h1>
       <SearchBar /> 
       </div>
     )

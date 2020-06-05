@@ -28,7 +28,7 @@ class SearchBar extends Component {
         
     search(result) {
         this.props.onSearch(this.state.term); {
-            axios.get('http://api.giphy.com/v1/gifs/random?api_key=0aIzVnzB2PPXO4Mtz0ZQNPALfV7CxgIT').then((response) => {
+            axios.get('http://api.giphy.com/v1/gifs/random?api_key=Yyaf7C3GPzJVUMpFfkaHcqZO9twwUgus').then((response) => {
                 this.setState({gifs: response.data ["data"], state: "searching"})
             });
         }             
