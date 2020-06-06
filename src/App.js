@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import SearchBar from './Components/SearchBar';
 import './App.css';
 import axios from 'axios';
-import GifCard from './Components/GifCard.js'
-import Search from './Components/Search'
+import GifCard from './Components/GifCard.js';
+import Search from './Components/Search';
+import RandomButton from './Components/randomButton.js';
 
 class App extends Component  {
 
   constructor(props){
     super(props);
     this.state = {
-      giphyArray: [], searchInput: "", searchResults: []
+      giphyArray: [], searchInput: "", searchResults: [], randomGif: ''
     }
   }
 
@@ -33,6 +34,23 @@ class App extends Component  {
     });
     }
 
+  outputRandom = () => {
+    const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
+    const randomUrl = "http://api.giphy.com/v1/gifs/random?api_key=" + apiKey;
+
+    axios.get(randomUrl).then((response) => {
+      //const data = response.data.data;
+     // console.log(data);
+      this.setState({randomGif: response.data.data.images.downsized_large.url});
+      console.log(this.state.randomGif);
+      
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+    
+  }
+
   componentDidMount(){
     const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
    //const trendingURL = `http://api.giphy.com/v1/gifs/trending?api_key=${apiKey}`;
@@ -53,6 +71,17 @@ class App extends Component  {
   render(){
     let displayTrendingArray;
     let displaySearchResults;
+    let displayRandom;
+
+    if(this.randomUrl != ''){
+       displayRandom = (
+      <div>
+        <img src={this.state.randomGif}/>
+        </div>
+    
+    )}
+    else 
+        displayRandom = '';
 
     if(this.state.searchResults[0])
     {
@@ -96,21 +125,26 @@ class App extends Component  {
       <div className="App">
       <h1>Search for Giphy:</h1>
 
+      <RandomButton
+        onSearch ={this.outputRandom}
+        />
+     
+     
       <Search 
         value={this.state.searchInput}
         onChange={this.handleInput}
         onSearch={this.handleSearch}
         />
-
       
         {displaySearchResults}
-      
+        {displayRandom}
 
 {
       <div> 
       <h1>Trending GIFS now: </h1>
       {displayTrendingArray}
       </div>
+      
       
  }
       </div>
